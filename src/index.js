@@ -8,9 +8,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 // import Root from "./routes/root";
-import Profile from './Profile';
-import Post from './Post';
-import Search from './Search';
+import Profile from './pages/profile/Profile';
+import Post from './pages/post/Post';
+import Search from './pages/search/Search';
+import TweetDetails from './pages/tweetDetails/tweetDetails';
 
 
 const router = createBrowserRouter([
@@ -29,7 +30,11 @@ const router = createBrowserRouter([
   {
     path: '/search',
     element: <Search/>
-  }
+  },
+  {
+    path: '/tweet/:tweetId',
+    element: <TweetDetails />,
+  },
 ]);
 
 

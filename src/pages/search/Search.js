@@ -6,35 +6,6 @@ function Profile() {
     const [searchResult, setSearchResult] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch("http://localhost:8080/api/search/userByName", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    pseudoSearch: pseudoSearch
-                })
-            });
-            const data = await response.json();
-            console.log(data)
-
-            // Ensure that data is an array before setting it
-            if (Array.isArray(data)) {
-                setSearchResult(data);
-                // Initialize subscriptions state based on the length of the result array
-                setSubscriptions(new Array(data.length).fill(false));
-            } else {
-                // If it's not an array, set an empty array
-                setSearchResult([]);
-                setSubscriptions([]);
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
     const handleSubscribe = (index) => {
         // Toggle the subscription status for the clicked index
         const updatedSubscriptions = [...subscriptions];
@@ -43,6 +14,34 @@ function Profile() {
     };
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/api/search/userByName", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        pseudoSearch: pseudoSearch
+                    })
+                });
+                const data = await response.json();
+                console.log(data)
+    
+                // Ensure that data is an array before setting it
+                if (Array.isArray(data)) {
+                    setSearchResult(data);
+                    // Initialize subscriptions state based on the length of the result array
+                    setSubscriptions(new Array(data.length).fill(false));
+                } else {
+                    // If it's not an array, set an empty array
+                    setSearchResult([]);
+                    setSubscriptions([]);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
         fetchData();
     }, [pseudoSearch]); // Re-run effect whenever pseudoSearch changes
 

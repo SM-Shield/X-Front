@@ -1,11 +1,13 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import Insults from './insultes.json'; // Importez la liste d'insultes
+import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [tweets, setTweets] = useState([]);
   const [searchValue, setSearchValue] = useState(''); // État pour la valeur de l'input
   const [highlightBadWords, setHighlightBadWords] = useState(false); // État pour activer/désactiver la surbrillance
+  const navigate = useNavigate();
 
   const toggleComments = (tweetId) => {
     setTweets((prevTweets) =>
@@ -68,7 +70,7 @@ function App() {
           </div>
           <div className="tweet-list">
             {tweets.map(tweet => (
-              <div key={tweet.tweetId} className="tweet">
+              <div key={tweet.tweetId} className="tweet" onClick={() => navigate(`/tweet/${tweet.tweetId}`)}>
                 <span className="tweet-name">{tweet.authorFullname}</span>
                 <span className="tweet-username">@{tweet.authorName}</span>
                 <p className={highlightBadWords && hasInsults(tweet.content) ? 'tweet-message highlight' : 'tweet-message'}>{tweet.content}</p>

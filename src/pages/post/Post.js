@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './post.css';
-import Insults from './insultes.json'; // Importer le fichier insultes.json
+import Insults from '../../insultes.json'; // Importer le fichier insultes.json
 
 function Post() {
     const [tweet, setTweet] = useState('');
@@ -59,7 +59,7 @@ function Post() {
         <div className="app-container">
             <div className="bar-container">
                 <div className="bar-content">
-                    <img className="logo" src="./logo_blue.png" />
+                    <img className="logo" alt="smshield_logo" src="./logo_blue.png" />
                     <div className="bar-title">- X API</div>
                 </div>
             </div>

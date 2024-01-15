@@ -102,6 +102,7 @@ function Profile() {
         return updatedList;
     };
 
+    // eslint-disable-next-line
     const updateProfile = async (newProfilePic) => {
         try {
             // Convertir newProfilePic en chaîne de caractères
