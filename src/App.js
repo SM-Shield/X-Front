@@ -70,16 +70,18 @@ function App() {
           </div>
           <div className="tweet-list">
             {tweets.map(tweet => (
-              <div key={tweet.tweetId} className="tweet" onClick={() => navigate(`/tweet/${tweet.tweetId}`)}>
+              <div key={tweet.tweetId} className="tweet" >
                 <span className="tweet-name">{tweet.authorFullname}</span>
                 <span className="tweet-username">@{tweet.authorName}</span>
                 <p className={highlightBadWords && hasInsults(tweet.content) ? 'tweet-message highlight' : 'tweet-message'}>{tweet.content}</p>
                 <div className="tweet-actions">
                   <span className="tweet-likes">❤️ {tweet.likes}</span>
                   <span className="tweet-retweets">🔁 {tweet.retweetsCount}</span>
-                  <button onClick={() => toggleComments(tweet.tweetId)}>
-                    {tweet.showComments ? "Masquer les commentaires" : "Afficher les commentaires"}
-                  </button>
+                  <div>
+                    <button onClick={() => toggleComments(tweet.tweetId)}>
+                      {tweet.showComments ? "Masquer les commentaires" : "Afficher les commentaires"}
+                    </button>
+                  </div>
                 </div>
                 {tweet.showComments && (
                   <div className="tweet-comments">
@@ -90,6 +92,11 @@ function App() {
                     ))}
                   </div>
                 )}
+                  <div>
+                    <button onClick={() => navigate(`/tweet/${tweet.tweetId}`)}>
+                      {"Plus"}
+                    </button>
+                  </div>
               </div>
             ))}
           </div>

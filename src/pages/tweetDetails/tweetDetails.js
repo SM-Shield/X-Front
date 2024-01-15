@@ -1,4 +1,3 @@
-// TweetDetails.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -17,43 +16,56 @@ const TweetDetails = () => {
     }, [tweetId]);
 
     if (!tweet) {
-        return <div>Chargement...</div>;
+        return <div className="loading">Chargement...</div>;
     }
 
     return (
-        <div>
-            <h1>{tweet.authorFullname} (@{tweet.authorUsername})</h1>
-            <p>{tweet.content}</p>
+        <div className="app-container">
+            <div className="bar-container">
+                <div className="bar-content">
+                <img className="logo" alt="smshield Logo" src="../logo_blue.png" />
+                <div className="bar-title">- X API</div>
 
-            <div>
-                <span>Likes: {tweet.likes}</span>
-                {/* Liste déroulante des utilisateurs qui ont aimé le tweet */}
-                <ul>
-                    {tweet.likedBy.map(user => (
-                        <li key={user}>{user}</li>
-                    ))}
-                </ul>
+                </div>
             </div>
-
-            <div>
-                <span>Retweets: {tweet.retweetsCount}</span>
-                {/* Liste déroulante des retweets */}
-                <ul>
-                    {tweet.retweets.map(retweet => (
-                        <li key={retweet.retweetId}>{retweet.retweetAuthorUsername}</li>
-                    ))}
-                </ul>
-            </div>
-
-            <div>
-                <h2>Commentaires</h2>
-                {/* Liste complète des commentaires */}
-                {tweet.comments.map(comment => (
-                    <div key={comment.commentId}>
-                        <span>@{comment.commentAuthorUsername}</span>
-                        <p>{comment.content}</p>
+            <div className="body-container">
+                <div className="big-card tweet">
+                    <div className="tweet-header">
+                        <span className="tweet-name">{tweet.authorFullname}</span>
+                        <span className="tweet-username">@{tweet.authorName}</span>
                     </div>
-                ))}
+                    <p className="tweet-message">{tweet.content}</p>
+                    <div className="tweet-details">
+                        <div className="tweet-likes">
+                            ❤️ {tweet.likes}
+                            <ul>
+                                {tweet.likedBy.map(user => (
+                                    <li key={user}>
+                                        ({user})
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="tweet-retweets">
+                            🔁 {tweet.retweetsCount}
+                            <ul>
+                                {tweet.retweets.map(retweet => (
+                                    <li key={retweet.retweetId}>
+                                        ({retweet.retweetAuthorId}) {retweet.retweetAuthorUsername}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="tweet-comments">
+                        <h2>Commentaires</h2>
+                        {tweet.comments.map(comment => (
+                            <div key={comment.commentId} className="comment">
+                                @{comment.commentAuthorUsername}: {comment.content}
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     );
