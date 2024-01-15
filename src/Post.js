@@ -48,7 +48,6 @@ function Post() {
             body: JSON.stringify({
                 content,
                 authorID: "656cf7b61068bdaf57421e21",
-                username: "No'",
             }),
         })
         .then(response => response.json())
