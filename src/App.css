@@ -1,0 +1,142 @@
+.bar-container {
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.8);
+    background-color: #191919;
+    height: 80px;
+    text-align: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+}
+.logo {
+  width: 54px;
+  height: auto;
+}
+.app-container {
+  background-color: #191919;
+
+}
+
+input {
+  background-color: inherit;
+  border-color: #EEEEEE;
+  border-radius: 5px;
+  padding: 12px 24px;
+  color: #EEEEEE;
+}
+.input-container {
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 32px;
+  display: flex;
+  justify-content: space-around;
+
+}
+
+.bar-title {
+  padding-top: 20px;
+  color:#EEEEEE;
+}
+
+.bar-content {
+  display: flex;
+  animation: FadeIn 2s;
+  margin: auto;
+}
+
+.body-container {
+  padding-top: 86px;
+}
+
+.card-header {
+  text-align: center;
+  font-size: 42px;
+  padding-bottom: 16px;
+  color: #EEEEEE;
+  font-weight: 700;
+}
+h1 {
+  color: #EEEEEE;
+  font-size: 72px;
+  padding-left: 24px;
+}
+.banner {
+  width: 100%;
+  height: 60px;
+}
+.big-card {
+  width: 90%;
+  margin: auto;
+  height: 200px;
+}
+
+.tweet-list {
+  margin-top: 20px;
+  display: flex; 
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 30px;
+  animation: SlideFromBottom 2s;
+}
+
+
+.tweet {
+  margin-bottom: 10px;
+  border: 1px solid #e1e8ed;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 32%;
+  min-height: 180px;
+  box-sizing: border-box;
+  margin-right: 10px;
+  border-radius: 5px;
+  min-height: 120px;
+}
+
+
+
+.tweet-username {
+  margin-right: 5px;
+  color: grey;
+  font-weight: 700;
+
+}
+
+.tweet-name {
+  font-weight: 700;
+  margin-right: 5px;
+  color: #EEEEEE;
+}
+
+.tweet
+
+.tweet-likes,
+.tweet-retweets {
+  margin-right: 10px;
+  color: #657786;
+}
+
+.tweet-message {
+  margin-top: 10px;
+  color: #eeeeee;
+}
+
+.tweet-comments {
+  margin-top: 10px;
+  color: #657786;
+  animation: FadeIn 2s;
+}
+
+.comment {
+  margin-bottom: 5px;
+}
+
+.highlight {
+  background-color: red;
+}
+
+.comment.highlight {
+  background-color: red;
+}
+

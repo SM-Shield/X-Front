@@ -1,0 +1,9 @@
+.tweet {
+    color: #EEEEEE;
+    min-height: none;
+}
+
+textarea {
+    background-color: black;
+    color: #EEEEEE;
+}

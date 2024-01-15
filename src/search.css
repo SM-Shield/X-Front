@@ -1,0 +1,44 @@
+.input-container {
+    display: block;
+    text-align: center;
+}
+.pseudo {
+    text-align: center;
+    padding-top: 50px;
+    color: #EEEEEE;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+input {
+    padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #3498db;
+  border-radius: 4px;
+}
+
+.result-container {
+    padding-top: 50px;
+
+    text-align: center;
+
+}
+.profile-container {
+    display: flex;
+
+}
+
+img {
+    width: 64px;
+    height: auto;
+}
+
+.flex {
+    display:block;
+    color: #EEEEEE;
+    padding-left: 16px;
+    
+}
+.username {
+    padding-bottom: 8px;
+}
