@@ -6,11 +6,40 @@ function Profile() {
     const [searchResult, setSearchResult] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
 
-    const handleSubscribe = (index) => {
+    const handleSubscribe = async (index) => {
         // Toggle the subscription status for the clicked index
         const updatedSubscriptions = [...subscriptions];
         updatedSubscriptions[index] = !updatedSubscriptions[index];
         setSubscriptions(updatedSubscriptions);
+
+        // Get the userId from the result
+        const userId = searchResult[index].id;
+
+        try {
+            // Make a PATCH request to update the followings
+            const response = await fetch(`http://localhost:8080/api/users/${userId}/followings`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: "MathoBaBinks",
+                    action: "add"
+                })
+            });
+
+            // Handle the response as needed
+            if (response.ok) {
+                console.log(`Successfully subscribed to user with userId: ${userId}`);
+            } else {
+                console.error(`Failed to subscribe to user with userId: ${userId}`);
+                // Revert the subscription status on failure
+                updatedSubscriptions[index] = !updatedSubscriptions[index];
+                setSubscriptions(updatedSubscriptions);
+            }
+        } catch (error) {
+            console.error('Error making subscription request:', error);
+        }
     };
 
     useEffect(() => {
@@ -27,7 +56,7 @@ function Profile() {
                 });
                 const data = await response.json();
                 console.log(data)
-    
+
                 // Ensure that data is an array before setting it
                 if (Array.isArray(data)) {
                     setSearchResult(data);
@@ -43,7 +72,7 @@ function Profile() {
             }
         };
         fetchData();
-    }, [pseudoSearch]); // Re-run effect whenever pseudoSearch changes
+    }, [pseudoSearch]);
 
     return (
         <div className="app-container">
