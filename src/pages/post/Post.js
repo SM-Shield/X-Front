@@ -29,7 +29,7 @@ function Post() {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/tweet/656cf7b61068bdaf57421e21`)
+        fetch(`https://api-x-weld.vercel.app/api/tweet/656cf7b61068bdaf57421e21`)
             .then(response => response.json())
             .then(data => {
                 setTweets(data);
@@ -40,7 +40,7 @@ function Post() {
 
     const publishTweet = (content) => {
         // Envoyer une requête POST pour publier le tweet sur le serveur
-        fetch('http://localhost:8080/api/tweet', {
+        fetch('https://api-x-weld.vercel.app/api/tweet', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

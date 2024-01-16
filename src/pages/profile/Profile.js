@@ -46,7 +46,7 @@ function Profile() {
         e.preventDefault();
     
         try {
-            const response = await fetch(`http://localhost:8080/api/users/656cf7b61068bdaf57421e21/profile`, {
+            const response = await fetch(`https://api-x-weld.vercel.app/api/users/656cf7b61068bdaf57421e21/profile`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -146,7 +146,7 @@ function Profile() {
                 profilePic: profilePictureAsString,
             }));
 
-            const response = await fetch("http://localhost:8080/api/users/656cf7b61068bdaf57421e21/profile", {
+            const response = await fetch("https://api-x-weld.vercel.app/api/users/656cf7b61068bdaf57421e21/profile", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -190,17 +190,17 @@ function Profile() {
                 const userId = '656cf7b61068bdaf57421e21'; // Remplacez par l'ID de l'utilisateur actuel
 
                 // Fetch followers data
-                const followersResponse = await fetch(`http://localhost:8080/api/users/${userId}/followers`);
+                const followersResponse = await fetch(`https://api-x-weld.vercel.app/api/users/${userId}/followers`);
                 const followersData = await followersResponse.json();
                 setFollowersList(followersData);
 
                 // Fetch following data
-                const followingResponse = await fetch(`http://localhost:8080/api/users/${userId}/followings`);
+                const followingResponse = await fetch(`https://api-x-weld.vercel.app/api/users/${userId}/followings`);
                 const followingData = await followingResponse.json();
                 setFollowingList(followingData);
 
                 // Fetch profile data
-                const profileResponse = await fetch(`http://localhost:8080/api/users/${userId}/profile`);
+                const profileResponse = await fetch(`https://api-x-weld.vercel.app/api/users/${userId}/profile`);
                 const profileDataFromServer = await profileResponse.json();
                 console.log(profileDataFromServer);
 
