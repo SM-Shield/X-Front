@@ -27,11 +27,11 @@ function Profile() {
 
 
     const handleBlockFollower = (index) => {
-        handleBlock(followersList, index);
+        handleBlock("follower", followersList, index);
     };
     
     const handleBlockFollowing = (index) => {
-        handleBlock(followingList, index);
+        handleBlock("following", followingList, index);
     };
 
     const handleEditClick = () => {
@@ -89,28 +89,25 @@ function Profile() {
         setShowFollowing(!showFollowing);
     };
 
-    const handleBlock = async (list, index) => {
-        // Obtenir le userId correspondant à l'index
-        const userId = list[index].id;
-    
+    const handleBlock = async (type, list, index) => {
+        const searchedUserId = list[index].id;
         try {
             // Faire une requête PATCH pour bloquer l'utilisateur
-            const response = await fetch(`http://localhost:8080/api/users/${userId}/followings`, {
+            const response = await fetch(`https://api-x-weld.vercel.app/api/users/updateFollow`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    username: "MathoBaBinks",
-                    _id : "656cf7b61068bdaf57421e21",
+                    userId: type === "following" ? "656cf7b61068bdaf57421e21" : searchedUserId,
+                    targetId: type === "following" ? searchedUserId : "656cf7b61068bdaf57421e21",
                     action: "remove"
-                    // Ajoutez d'autres champs que vous souhaitez mettre à jour
                 }),
             });
     
             // Handle the response as needed
             if (response.ok) {
-                console.log(`Utilisateur avec userId ${userId} bloqué avec succès!`);
+                console.log(`Utilisateur avec userId ${searchedUserId} bloqué avec succès!`);
     
                 // Mettez à jour la liste des followers ou followings après avoir bloqué l'utilisateur
                 const updatedList = handleBlock(list, index);
@@ -127,7 +124,7 @@ function Profile() {
                     following: followingList.length,
                 }));
             } else {
-                console.error(`Échec du blocage de l'utilisateur avec userId: ${userId}`);
+                console.error(`Échec du blocage de l'utilisateur avec userId: ${searchedUserId}`);
             }
         } catch (error) {
             console.error("Erreur lors du blocage de l'utilisateur:", error);
@@ -202,7 +199,7 @@ function Profile() {
                 // Fetch profile data
                 const profileResponse = await fetch(`https://api-x-weld.vercel.app/api/users/${userId}/profile`);
                 const profileDataFromServer = await profileResponse.json();
-                console.log(profileDataFromServer);
+                // console.log(profileDataFromServer);
 
                 setProfileData({
                     ...profileDataFromServer,
@@ -248,8 +245,8 @@ function Profile() {
                         {showFollowers && (
                             <div className="followers-list">
                                 {followersList.map((follower, index) => (
-                                    <p key={index}>
-                                        <b>{follower}</b>
+                                    <p key={`follower-${index}`}>
+                                        <b>{`${follower.username}  (${follower.id})`}</b>
                                         <button onClick={() => handleBlockFollower(index)}>Bloquer</button>
                                     </p>
                                 ))}
@@ -261,8 +258,8 @@ function Profile() {
                         {showFollowing && (
                             <div className="following-list">
                                 {followingList.map((following, index) => (
-                                    <p key={index}>
-                                        <b>{following}</b>
+                                    <p key={`following-${index}`}>
+                                        <b>{`${following.username}  (${following.id})`}</b>
                                         <button onClick={() => handleBlockFollowing(index)}>Bloquer</button>
                                     </p>
                                 ))}

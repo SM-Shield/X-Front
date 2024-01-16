@@ -17,13 +17,14 @@ function Profile() {
 
         try {
             // Make a PATCH request to update the followings
-            const response = await fetch(`http://localhost:8080/api/users/${userId}/followings`, {
+            const response = await fetch(`https://api-x-weld.vercel.app/api/users/updateFollow`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    username: "MathoBaBinks",
+                    userId: "656cf7b61068bdaf57421e21",
+                    targetId: searchResult[index].id,
                     action: "add"
                 })
             });
