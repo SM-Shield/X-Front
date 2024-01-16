@@ -14,7 +14,7 @@ function Post() {
     const handlePublish = () => {
         if (tweet.trim() !== '') {
             // Publier le tweet localement
-            setTweets([...tweets, { content: tweet, username: "No'", likedBy: [], retweets: [], comments: [] }]);
+            setTweets([...tweets, { content: tweet, username: "Mathobinks'", likedBy: [], retweets: [], comments: [] }]);
             
             // Envoyer la requête POST pour publier le tweet sur le serveur
             publishTweet(tweet);
@@ -48,6 +48,7 @@ function Post() {
             body: JSON.stringify({
                 content,
                 authorID: "656cf7b61068bdaf57421e21",
+                username: "Matho"
             }),
         })
         .then(response => response.json())

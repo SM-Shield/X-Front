@@ -23,22 +23,15 @@ function Profile() {
             [name]: value,
         }));
     };
+    
 
 
     const handleBlockFollower = (index) => {
-        setFollowersList(handleBlock(followersList, index));
-        setProfileData({
-            ...profileData,
-            followers: followersList.length - 1,
-        });
+        handleBlock(followersList, index);
     };
-
+    
     const handleBlockFollowing = (index) => {
-        setFollowingList(handleBlock(followingList, index));
-        setProfileData({
-            ...profileData,
-            following: followingList.length - 1,
-        });
+        handleBlock(followingList, index);
     };
 
     const handleEditClick = () => {
@@ -96,10 +89,49 @@ function Profile() {
         setShowFollowing(!showFollowing);
     };
 
-    const handleBlock = (list, index) => {
-        const updatedList = [...list];
-        updatedList.splice(index, 1);
-        return updatedList;
+    const handleBlock = async (list, index) => {
+        // Obtenir le userId correspondant à l'index
+        const userId = list[index].id;
+    
+        try {
+            // Faire une requête PATCH pour bloquer l'utilisateur
+            const response = await fetch(`http://localhost:8080/api/users/${userId}/followings`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: "MathoBaBinks",
+                    _id : "656cf7b61068bdaf57421e21",
+                    action: "remove"
+                    // Ajoutez d'autres champs que vous souhaitez mettre à jour
+                }),
+            });
+    
+            // Handle the response as needed
+            if (response.ok) {
+                console.log(`Utilisateur avec userId ${userId} bloqué avec succès!`);
+    
+                // Mettez à jour la liste des followers ou followings après avoir bloqué l'utilisateur
+                const updatedList = handleBlock(list, index);
+                if (list === followersList) {
+                    setFollowersList(updatedList);
+                } else if (list === followingList) {
+                    setFollowingList(updatedList);
+                }
+    
+                // Mettez à jour les statistiques du profil
+                setProfileData((prevProfileData) => ({
+                    ...prevProfileData,
+                    followers: followersList.length,
+                    following: followingList.length,
+                }));
+            } else {
+                console.error(`Échec du blocage de l'utilisateur avec userId: ${userId}`);
+            }
+        } catch (error) {
+            console.error("Erreur lors du blocage de l'utilisateur:", error);
+        }
     };
 
     // eslint-disable-next-line
@@ -242,6 +274,7 @@ function Profile() {
 
             <button onClick={handleEditClick}>Modifier le Profil</button>
             {isEditing && (
+                <div className='modal-container'>
                 <div className="modal">
                     <div className="modal-content">
                         <span className="close" onClick={handleCloseModal}>
@@ -291,6 +324,7 @@ function Profile() {
                             </div>
                         </form>
                     </div>
+                </div>
                 </div>
             )}
         </div>
