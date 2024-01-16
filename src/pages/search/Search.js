@@ -16,7 +16,7 @@ function Profile() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/search/userByName", {
+                const response = await fetch("https://api-x-weld.vercel.app/api/search/userByName", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

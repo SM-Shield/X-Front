@@ -6,7 +6,7 @@ const TweetDetails = () => {
     const [tweet, setTweet] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/tweetInfos/${tweetId}`)
+        fetch(`https://api-x-weld.vercel.app/api/tweetInfos/${tweetId}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data)

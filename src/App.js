@@ -18,7 +18,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/tweet/getAll')
+    fetch('https://api-x-weld.vercel.app/api/tweet/getAll')
       .then(response => response.json())
       .then(data => {
         const updatedTweets = data.map(tweet => ({ ...tweet, showComments: false }));
