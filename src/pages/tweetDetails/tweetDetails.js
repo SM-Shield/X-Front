@@ -28,8 +28,8 @@ const TweetDetails = () => {
 
                 </div>
             </div>
-            <div className="body-container">
-                <div className="big-card tweet">
+            <div className="body-container margin">
+                <div className="tweet">
                     <div className="tweet-header">
                         <span className="tweet-name">{tweet.authorFullname}</span>
                         <span className="tweet-username">@{tweet.authorName}</span>
