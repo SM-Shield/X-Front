@@ -1,0 +1,16 @@
+.tweets {
+    margin-bottom: 10px;
+    border: 1px solid #e1e8ed;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 32%;
+    min-height: 180px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    border-radius: 5px;
+    min-height: 120px;
+  }
+
+  .margin {
+    margin: auto;
+  }
