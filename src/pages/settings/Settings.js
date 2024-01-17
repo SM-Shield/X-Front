@@ -1,29 +1,38 @@
 import React, { useState } from 'react';
 import './settings.css';
 
-
 function UserSettings() {
   const [userId, setUserId] = useState(localStorage.getItem('actualUserId'));
+  const [successNotification, setSuccessNotification] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     localStorage.setItem('actualUserId', userId);
+
     if (userId == null || userId === "") {
       localStorage.setItem('actualUserId', '');
       localStorage.setItem('actualUsername', '');
       return;
     }
-    // Faire une requête au serveur pour récupérer l'username
+
     try {
       const response = await fetch(`https://api-x-weld.vercel.app/api/users/${userId}/profile`);
       const userData = await response.json();
+
       if (userData.username === undefined) {
         console.log("userId invalide");
         localStorage.setItem('actualUserId', '');
         localStorage.setItem('actualUsername', '');
         return;
       }
+
       localStorage.setItem('actualUsername', userData.username);
+      setSuccessNotification(true);
+
+      // Réinitialiser la notification après quelques secondes
+      setTimeout(() => {
+        setSuccessNotification(false);
+      }, 3000); // Changez la durée de l'affichage de la notification selon vos besoins
     } catch (error) {
       console.error('Erreur lors de la récupération des données utilisateur', error);
       localStorage.setItem('actualUserId', '');
@@ -41,20 +50,25 @@ function UserSettings() {
       </div>
       <div className="body-container">
         <h1>Paramètres utilisateur</h1>
-        <div >
+        <div>
           <form onSubmit={handleSubmit}>
             <div className="settings-container">
-            <input
-              type="text"
-              placeholder="Nouvel ID utilisateur"
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
-            />
-            <div class="button-container">
-            <button type="submit">Mettre à jour</button>
-            </div>
+              <input
+                type="text"
+                placeholder="Nouvel ID utilisateur"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
+              />
+              <div className="button-container">
+                <button type="submit">Mettre à jour</button>
+              </div>
             </div>
           </form>
+          {successNotification && (
+            <div className="notification">
+              Changement de compte avec succès!
+            </div>
+          )}
         </div>
       </div>
     </div>
