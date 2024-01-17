@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './settings.css';
+
 
 function UserSettings() {
   const [userId, setUserId] = useState(localStorage.getItem('actualUserId'));
@@ -39,15 +41,19 @@ function UserSettings() {
       </div>
       <div className="body-container">
         <h1>Paramètres utilisateur</h1>
-        <div className="big-card">
+        <div >
           <form onSubmit={handleSubmit}>
+            <div className="settings-container">
             <input
               type="text"
               placeholder="Nouvel ID utilisateur"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
             />
+            <div class="button-container">
             <button type="submit">Mettre à jour</button>
+            </div>
+            </div>
           </form>
         </div>
       </div>
