@@ -3,21 +3,45 @@ import { useParams } from 'react-router-dom';
 
 const TweetDetails = () => {
     const { tweetId } = useParams();
-    const [tweet, setTweet] = useState(null);
+    const defaultTweet = {
+        authorFullname: "...",
+        authorName: "...",
+        comments: [],
+        content: "...",
+        likedBy: [],
+        likes: 0,
+        retweets: [],
+        retweetsCount: 0,
+    };
+    const [tweet, setTweet] = useState(defaultTweet);
 
     useEffect(() => {
         fetch(`https://api-x-weld.vercel.app/api/tweetInfos/${tweetId}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setTweet(data)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Réponse non réussie');
+                }
             })
-            .catch(error => console.error('Erreur de chargement du tweet', error));
-    }, [tweetId]);
-
-    if (!tweet) {
-        return <div className="loading">Chargement...</div>;
-    }
+            .then(data => {
+                console.log(data);
+                setTweet(data);
+            })
+            .catch(error => {
+                console.error('Erreur de chargement du tweet', error);
+                setTweet({
+                    authorFullname: "...",
+                    authorName: "...",
+                    comments: [],
+                    content: "...",
+                    likedBy: [],
+                    likes: 0,
+                    retweets: [],
+                    retweetsCount: 0,
+                });
+            });
+    }, [tweetId]);    
 
     return (
         <div className="app-container">
