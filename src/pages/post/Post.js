@@ -6,6 +6,8 @@ function Post() {
     const [tweet, setTweet] = useState('');
     const [tweets, setTweets] = useState([]);
     const [highlightInsults, setHighlightInsults] = useState(false);
+    const [actualUserId] = useState(localStorage.getItem('actualUserId') || "656cf7b61068bdaf57421e21");
+    const [actualUsername] = useState(localStorage.getItem('actualUsername') || "Matho");
 
     const handleTweetChange = (e) => {
         setTweet(e.target.value);
@@ -14,7 +16,7 @@ function Post() {
     const handlePublish = () => {
         if (tweet.trim() !== '') {
             // Publier le tweet localement
-            setTweets([...tweets, { content: tweet, username: "Mathobinks'", likedBy: [], retweets: [], comments: [] }]);
+            setTweets([{ content: tweet, username: actualUsername, likedBy: [], retweets: [], comments: [] }, ...tweets]);
             
             // Envoyer la requête POST pour publier le tweet sur le serveur
             publishTweet(tweet);
@@ -29,14 +31,14 @@ function Post() {
     };
 
     useEffect(() => {
-        fetch(`https://api-x-weld.vercel.app/api/tweet/656cf7b61068bdaf57421e21`)
+        fetch(`https://api-x-weld.vercel.app/api/tweet/${actualUserId}`)
             .then(response => response.json())
             .then(data => {
-                setTweets(data);
+                setTweets(data.reverse());
                 console.log('Tweets chargés avec succès :', data);
             })
             .catch(error => console.error('Erreur de chargement des tweets', error));
-    }, []);
+    }, [actualUserId]);
 
     const publishTweet = (content) => {
         // Envoyer une requête POST pour publier le tweet sur le serveur
@@ -47,8 +49,8 @@ function Post() {
             },
             body: JSON.stringify({
                 content,
-                authorID: "656cf7b61068bdaf57421e21",
-                username: "Matho"
+                authorID: actualUserId,
+                username: actualUsername
             }),
         })
         .then(response => response.json())

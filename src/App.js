@@ -21,7 +21,7 @@ function App() {
     fetch('https://api-x-weld.vercel.app/api/tweet/getAll')
       .then(response => response.json())
       .then(data => {
-        const updatedTweets = data.map(tweet => ({ ...tweet, showComments: false }));
+        const updatedTweets = data.reverse().map(tweet => ({ ...tweet, showComments: false }));
         setTweets(updatedTweets);
       })
       .catch(error => console.error('Erreur de chargement des tweets', error));

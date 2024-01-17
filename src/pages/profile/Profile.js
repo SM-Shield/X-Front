@@ -8,13 +8,14 @@ function Profile() {
     const [followersList, setFollowersList] = useState([]);
     const [followingList, setFollowingList] = useState([]);
     const [profileData, setProfileData] = useState({
-        profilePic: './profile.png',
-        username: 'Matho',
-        fullname: '@Mathobinks',
-        bio: 'Explorateur passionné de la vie, naviguant entre pixels et aventures réelles, tout en cherchant la beauté dans chaque coin du monde.',
+        profilePic: './userProfile.jpg',
+        username: '...',
+        fullname: '...',
+        bio: '...',
         followers: 0,
         following: 0,
     });
+    const [actualUserId] = useState(localStorage.getItem('actualUserId') || "656cf7b61068bdaf57421e21");
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -44,9 +45,8 @@ function Profile() {
 
     const handleSaveChanges = async (e) => {
         e.preventDefault();
-    
         try {
-            const response = await fetch(`https://api-x-weld.vercel.app/api/users/656cf7b61068bdaf57421e21/profile`, {
+            const response = await fetch(`https://api-x-weld.vercel.app/api/users/${actualUserId}/profile`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -69,6 +69,7 @@ function Profile() {
                     following: updatedProfileData.following,
                 }));
                 console.log("Profil mis à jour avec succès!");
+                localStorage.setItem("actualUsername", updatedProfileData.user.username);
             } else {
                 console.error("Échec de la mise à jour du profil.");
             }
@@ -92,36 +93,31 @@ function Profile() {
     const handleBlock = async (type, list, index) => {
         const searchedUserId = list[index].id;
         try {
-            // Faire une requête PATCH pour bloquer l'utilisateur
             const response = await fetch(`https://api-x-weld.vercel.app/api/users/updateFollow`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    userId: type === "following" ? "656cf7b61068bdaf57421e21" : searchedUserId,
-                    targetId: type === "following" ? searchedUserId : "656cf7b61068bdaf57421e21",
+                    userId: type === "following" ? actualUserId : searchedUserId,
+                    targetId: type === "following" ? searchedUserId : actualUserId,
                     action: "remove"
                 }),
             });
     
-            // Handle the response as needed
             if (response.ok) {
                 console.log(`Utilisateur avec userId ${searchedUserId} bloqué avec succès!`);
     
-                // Mettez à jour la liste des followers ou followings après avoir bloqué l'utilisateur
-                const updatedList = handleBlock(list, index);
-                if (list === followersList) {
-                    setFollowersList(updatedList);
-                } else if (list === followingList) {
-                    setFollowingList(updatedList);
+                if (type === "follower") {
+                    setFollowersList(prevList => prevList.filter(user => user.id !== searchedUserId));
+                } else if (type === "following") {
+                    setFollowingList(prevList => prevList.filter(user => user.id !== searchedUserId));
                 }
-    
-                // Mettez à jour les statistiques du profil
-                setProfileData((prevProfileData) => ({
+
+                setProfileData(prevProfileData => ({
                     ...prevProfileData,
-                    followers: followersList.length,
-                    following: followingList.length,
+                    followers: type === "follower" ? prevProfileData.followers - 1 : prevProfileData.followers,
+                    following: type === "following" ? prevProfileData.following - 1 : prevProfileData.following,
                 }));
             } else {
                 console.error(`Échec du blocage de l'utilisateur avec userId: ${searchedUserId}`);
@@ -131,60 +127,10 @@ function Profile() {
         }
     };
 
-    // eslint-disable-next-line
-    const updateProfile = async (newProfilePic) => {
-        try {
-            // Convertir newProfilePic en chaîne de caractères
-            const profilePictureAsString = String(newProfilePic);
-
-            // Mettre à jour profileData avant la requête
-            setProfileData((prevProfileData) => ({
-                ...prevProfileData,
-                profilePic: profilePictureAsString,
-            }));
-
-            const response = await fetch("https://api-x-weld.vercel.app/api/users/656cf7b61068bdaf57421e21/profile", {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    // Ajoutez d'autres en-têtes nécessaires, par exemple, le jeton d'authentification
-                },
-                body: JSON.stringify({
-                    username: profileData.username,
-                    full_name: profileData.fullname,
-                    bio: profileData.bio,
-                    profile_picture: profilePictureAsString,  // Utilisez la nouvelle valeur convertie en chaîne
-                    // Ajoutez d'autres champs que vous souhaitez mettre à jour
-                }),
-            });
-
-            if (response.ok) {
-                const updatedProfileData = await response.json();
-                setProfileData((prevProfileData) => ({
-                    ...prevProfileData,
-                    followers: updatedProfileData.followers,
-                    following: updatedProfileData.following,
-                }));
-                console.log("Profil mis à jour avec succès!");
-            } else {
-                console.error("Échec de la mise à jour du profil.");
-            }
-        } catch (error) {
-            console.error("Erreur lors de la mise à jour du profil:", error);
-        }
-    };
-
-
-
-
-
-
-
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userId = '656cf7b61068bdaf57421e21'; // Remplacez par l'ID de l'utilisateur actuel
+                const userId = actualUserId;
 
                 // Fetch followers data
                 const followersResponse = await fetch(`https://api-x-weld.vercel.app/api/users/${userId}/followers`);
@@ -212,7 +158,7 @@ function Profile() {
         };
 
         fetchData();
-    }, []);
+    }, [actualUserId]);
 
     return (
 
@@ -257,7 +203,7 @@ function Profile() {
                         </p>
                         {showFollowing && (
                             <div className="following-list">
-                                {followingList.map((following, index) => (
+                                {followingList && followingList.map((following, index) => (
                                     <p key={`following-${index}`}>
                                         <b>{`${following.username}  (${following.id})`}</b>
                                         <button onClick={() => handleBlockFollowing(index)}>Bloquer</button>

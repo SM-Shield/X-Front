@@ -5,6 +5,8 @@ function Profile() {
     const [pseudoSearch, setPseudoSearch] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
+    const [actualUserId] = useState(localStorage.getItem('actualUserId') || "656cf7b61068bdaf57421e21");
+    // const [actualUsername] = useState(localStorage.getItem('actualUsername') || "Matho");
 
     const handleSubscribe = async (index) => {
         // Toggle the subscription status for the clicked index
@@ -23,7 +25,7 @@ function Profile() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    userId: "656cf7b61068bdaf57421e21",
+                    userId: actualUserId,
                     targetId: searchResult[index].id,
                     action: "add"
                 })
@@ -44,6 +46,7 @@ function Profile() {
     };
 
     useEffect(() => {
+        if (pseudoSearch === "") return;
         const fetchData = async () => {
             try {
                 const response = await fetch("https://api-x-weld.vercel.app/api/search/userByName", {
@@ -58,13 +61,10 @@ function Profile() {
                 const data = await response.json();
                 console.log(data)
 
-                // Ensure that data is an array before setting it
                 if (Array.isArray(data)) {
                     setSearchResult(data);
-                    // Initialize subscriptions state based on the length of the result array
                     setSubscriptions(new Array(data.length).fill(false));
                 } else {
-                    // If it's not an array, set an empty array
                     setSearchResult([]);
                     setSubscriptions([]);
                 }

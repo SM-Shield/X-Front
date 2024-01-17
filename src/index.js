@@ -12,6 +12,7 @@ import Profile from './pages/profile/Profile';
 import Post from './pages/post/Post';
 import Search from './pages/search/Search';
 import TweetDetails from './pages/tweetDetails/tweetDetails';
+import UserSettings from './pages/settings/Settings';
 
 
 const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: '/tweet/:tweetId',
     element: <TweetDetails />,
+  },
+  {
+    path: '/settings',
+    element: <UserSettings />,
   },
 ]);
 
