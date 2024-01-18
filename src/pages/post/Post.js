@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './post.css';
-import Insults from '../../insultes.json'; // Importer le fichier insultes.json
+import Insults from '../../insultes.json';
 
 function Post() {
     const [tweet, setTweet] = useState('');
@@ -15,13 +15,10 @@ function Post() {
 
     const handlePublish = () => {
         if (tweet.trim() !== '') {
-            // Publier le tweet localement
             setTweets([{ content: tweet, username: actualUsername, likedBy: [], retweets: [], comments: [] }, ...tweets]);
             
-            // Envoyer la requête POST pour publier le tweet sur le serveur
             publishTweet(tweet);
             
-            // Réinitialiser le champ de texte
             setTweet('');
         }
     };
@@ -41,7 +38,6 @@ function Post() {
     }, [actualUserId]);
 
     const publishTweet = (content) => {
-        // Envoyer une requête POST pour publier le tweet sur le serveur
         fetch('https://api-x-weld.vercel.app/api/tweet', {
             method: 'POST',
             headers: {

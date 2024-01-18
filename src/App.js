@@ -1,12 +1,12 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import Insults from './insultes.json'; // Importez la liste d'insultes
+import Insults from './insultes.json';
 import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [tweets, setTweets] = useState([]);
-  const [searchValue, setSearchValue] = useState(''); // État pour la valeur de l'input
-  const [highlightBadWords, setHighlightBadWords] = useState(false); // État pour activer/désactiver la surbrillance
+  const [searchValue, setSearchValue] = useState(''); 
+  const [highlightBadWords, setHighlightBadWords] = useState(false);
   const navigate = useNavigate();
 
   const toggleComments = (tweetId) => {
@@ -31,7 +31,6 @@ function App() {
     const inputValue = e.target.value;
     setSearchValue(inputValue);
 
-    // Filtrer les tweets en fonction de la valeur de l'input
     const filtered = tweets.filter((tweet) =>
       tweet.content.toLowerCase().includes(inputValue.toLowerCase())
     );
@@ -39,7 +38,6 @@ function App() {
     setTweets(filtered);
   };
 
-  // Fonction pour vérifier si un texte contient des insultes
   const hasInsults = (text) => {
     const insults = Insults.map(insult => insult.toLowerCase());
     return insults.some(insult => text.toLowerCase().includes(insult));

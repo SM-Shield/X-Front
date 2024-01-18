@@ -6,19 +6,15 @@ function Profile() {
     const [searchResult, setSearchResult] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
     const [actualUserId] = useState(localStorage.getItem('actualUserId') || "656cf7b61068bdaf57421e21");
-    // const [actualUsername] = useState(localStorage.getItem('actualUsername') || "Matho");
 
     const handleSubscribe = async (index) => {
-        // Toggle the subscription status for the clicked index
         const updatedSubscriptions = [...subscriptions];
         updatedSubscriptions[index] = !updatedSubscriptions[index];
         setSubscriptions(updatedSubscriptions);
 
-        // Get the userId from the result
         const userId = searchResult[index].id;
 
         try {
-            // Make a PATCH request to update the followings
             const response = await fetch(`https://api-x-weld.vercel.app/api/users/updateFollow`, {
                 method: "PATCH",
                 headers: {
@@ -31,12 +27,10 @@ function Profile() {
                 })
             });
 
-            // Handle the response as needed
             if (response.ok) {
                 console.log(`Successfully subscribed to user with userId: ${userId}`);
             } else {
                 console.error(`Failed to subscribe to user with userId: ${userId}`);
-                // Revert the subscription status on failure
                 updatedSubscriptions[index] = !updatedSubscriptions[index];
                 setSubscriptions(updatedSubscriptions);
             }

@@ -50,14 +50,12 @@ function Profile() {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    // Ajoutez d'autres en-têtes nécessaires, par exemple, le jeton d'authentification
                 },
                 body: JSON.stringify({
                     username: profileData.username,
                     full_name: profileData.fullname,
                     bio: profileData.bio,
-                    profile_picture: profileData.profilePic,  // Utilisez la valeur actuelle de l'URL
-                    // Ajoutez d'autres champs que vous souhaitez mettre à jour
+                    profile_picture: profileData.profilePic, 
                 }),
             });
     

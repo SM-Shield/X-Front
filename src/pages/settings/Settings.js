@@ -29,10 +29,9 @@ function UserSettings() {
       localStorage.setItem('actualUsername', userData.username);
       setSuccessNotification(true);
 
-      // Réinitialiser la notification après quelques secondes
       setTimeout(() => {
         setSuccessNotification(false);
-      }, 3000); // Changez la durée de l'affichage de la notification selon vos besoins
+      }, 3000);
     } catch (error) {
       console.error('Erreur lors de la récupération des données utilisateur', error);
       localStorage.setItem('actualUserId', '');
